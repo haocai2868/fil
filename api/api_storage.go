@@ -51,6 +51,13 @@ type StorageMiner interface {
 
 	MiningBase(context.Context) (*types.TipSet, error) //perm:read
 
+
+	// @Added by xxxx 2021-10-18 for lotus-miner sectors counter cmd
+	SectorCounterGet(context.Context) (abi.SectorNumber, error)  //perm:read
+	SectorCounterSet(context.Context, abi.SectorNumber) error    //perm:admin
+	SectorCounterNext(context.Context) (abi.SectorNumber, error) //perm:admin
+
+
 	// Temp api for testing
 	PledgeSector(context.Context) (abi.SectorID, error) //perm:write
 

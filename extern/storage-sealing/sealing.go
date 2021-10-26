@@ -275,3 +275,15 @@ func getDealPerSectorLimit(size abi.SectorSize) (int, error) {
 	}
 	return 512, nil
 }
+
+func (m *Miner) GetSectorNumber(ctx context.Context) (abi.SectorNumber, error) {
+	return m.sealing.GetSectorNumber(ctx)
+}
+
+func (m *Miner) SetSectorNumber(ctx context.Context, id abi.SectorNumber) error {
+	return m.sealing.SetSectorNumber(ctx, id)
+}
+
+func (m *Miner) NextSectorNumber(ctx context.Context) (abi.SectorNumber, error) {
+	return m.sealing.NextSectorNumber(ctx)
+}

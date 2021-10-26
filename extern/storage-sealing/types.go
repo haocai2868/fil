@@ -20,6 +20,13 @@ import (
 //go:generate go run github.com/golang/mock/mockgen -destination=mocks/statemachine.go -package=mocks . Context
 
 // Context is a go-statemachine context
+
+type SectorIDCounter interface {
+	Get() (abi.SectorNumber, error) //新增
+	Set(abi.SectorNumber) error //新增
+	Next() (abi.SectorNumber, error)
+}
+
 type Context interface {
 	Context() context.Context
 	Send(evt interface{}) error
@@ -206,4 +213,17 @@ type GetSealingConfigFunc func() (sealiface.Config, error)
 
 func (mr *MessageReceipt) Equals(o *MessageReceipt) bool {
 	return mr.ExitCode == o.ExitCode && bytes.Equal(mr.Return, o.Return) && mr.GasUsed == o.GasUsed
+}
+
+
+func (m *Sealing) GetSectorNumber(ctx context.Context) (abi.SectorNumber, error) {
+	return m.sc.Get()
+}
+
+func (m *Sealing) SetSectorNumber(ctx context.Context, sid abi.SectorNumber) error {
+	return m.sc.Set(sid)
+}
+
+func (m *Sealing) NextSectorNumber(ctx context.Context) (abi.SectorNumber, error) {
+	return m.sc.Next()
 }
